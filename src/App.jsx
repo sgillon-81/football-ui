@@ -3,7 +3,6 @@ import Players from "./pages/Players";
 import Availability from "./pages/Availability";
 import Teams from "./pages/Teams";
 import RatePlayers from "./pages/RatePlayers";
-import ViewRatings from "./pages/ViewRatings";
 import ViewAverageRatings from "./pages/ViewAverageRatings";
 import AddPlayer from "./pages/AddPlayer";
 
