@@ -6,10 +6,14 @@ const Players = () => {
     const [players, setPlayers] = useState([]);
 
     useEffect(() => {
-        axios.get(`${API_BASE_URL}/players`) // ✅ Use API_BASE_URL
-            .then(response => setPlayers(response.data))
-            .catch(error => console.error("❌ Error fetching players:", error));
-    }, []);
+        axios.get(`${API_BASE_URL}/players`)
+          .then(response => {
+            const sortedPlayers = [...response.data].sort((a, b) => a.name.localeCompare(b.name));
+            setPlayers(sortedPlayers);
+          })
+          .catch(error => console.error("❌ Error fetching players:", error));
+      }, []);
+      
 
     return (
         <div className="p-6">
