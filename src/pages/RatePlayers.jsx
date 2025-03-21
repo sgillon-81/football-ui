@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { API_BASE_URL } from "../config"; // ✅ Import base URL
+import { API_BASE_URL } from "../config";
+
+const COACHES = ["Dannie", "James", "Kirsten", "Stephen", "Stuart"];
 
 const RatePlayers = () => {
     const [players, setPlayers] = useState([]);
@@ -8,8 +10,11 @@ const RatePlayers = () => {
     const [coachName, setCoachName] = useState("");
 
     useEffect(() => {
-        axios.get(`${API_BASE_URL}/players`) // ✅ Use API_BASE_URL
-            .then(response => setPlayers(response.data))
+        axios.get(`${API_BASE_URL}/players`)
+            .then(response => {
+                const sorted = [...response.data].sort((a, b) => a.name.localeCompare(b.name));
+                setPlayers(sorted);
+            })
             .catch(error => console.error("❌ Error fetching players:", error));
     }, []);
 
@@ -22,11 +27,11 @@ const RatePlayers = () => {
 
     const submitRating = async (playerName) => {
         if (!coachName) {
-            alert("❌ Please enter your name before submitting ratings.");
+            alert("❌ Please select your name before submitting ratings.");
             return;
         }
         try {
-            await axios.post(`${API_BASE_URL}/players/${playerName}/ratings`, { // ✅ Use API_BASE_URL
+            await axios.post(`${API_BASE_URL}/players/${playerName}/ratings`, {
                 coach: coachName,
                 ...ratings[playerName]
             });
@@ -40,15 +45,21 @@ const RatePlayers = () => {
     return (
         <div className="p-6 bg-gray-900 min-h-screen text-white">
             <h2 className="text-3xl font-bold text-white mb-6 text-center">🎯 Rate Players</h2>
-            
+
+            {/* 🧑‍🏫 Coach Selector */}
             <div className="mb-6 flex flex-col items-center">
-                <input
-                    type="text"
-                    placeholder="Enter your name"
+                <label htmlFor="coach" className="mb-2 text-lg">Coach</label>
+                <select
+                    id="coach"
                     value={coachName}
                     onChange={(e) => setCoachName(e.target.value)}
                     className="p-3 border border-gray-600 bg-gray-800 text-white rounded-md w-80 text-lg"
-                />
+                >
+                    <option value="">Select your name</option>
+                    {COACHES.map(name => (
+                        <option key={name} value={name}>{name}</option>
+                    ))}
+                </select>
             </div>
 
             <div className="overflow-x-auto">
