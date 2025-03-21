@@ -56,17 +56,20 @@ export default function Availability() {
         <div className="p-6">
             <h1 className="text-3xl font-bold text-center text-white mb-6">Player Availability</h1>
             <div className="space-y-4">
-                {players.map(player => (
-                    <div key={player.name} className="flex justify-between items-center p-4 bg-gray-800 rounded-lg shadow">
-                        <span className="text-white text-lg">{player.name}</span>
-                        <button
-                            className={`px-4 py-2 rounded text-white ${availability[player.name] ? "bg-green-500" : "bg-red-500"}`}
-                            onClick={() => updateAvailability(player.name, !availability[player.name])}
-                        >
-                            {availability[player.name] ? "Available" : "Not Available"}
-                        </button>
-                    </div>
-                ))}
+                {/* 🔤 Sort players alphabetically before rendering */}
+                {[...players]
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .map(player => (
+                        <div key={player.name} className="flex justify-between items-center p-4 bg-gray-800 rounded-lg shadow">
+                            <span className="text-white text-lg">{player.name}</span>
+                            <button
+                                className={`px-4 py-2 rounded text-white ${availability[player.name] ? "bg-green-500" : "bg-red-500"}`}
+                                onClick={() => updateAvailability(player.name, !availability[player.name])}
+                            >
+                                {availability[player.name] ? "Available" : "Not Available"}
+                            </button>
+                        </div>
+                    ))}
             </div>
         </div>
     );
