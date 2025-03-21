@@ -18,7 +18,7 @@ export default function App() {
     <Link to="/teams" className="hover:text-white transition duration-200">Teams</Link>
     <Link to="/add-player" className="hover:text-white transition duration-200">Add Player</Link>
     <Link to="/rate-players" className="hover:text-white transition duration-200">Rate Players</Link>
-    <Link to="/view-average-ratings" className="hover:text-white transition duration-200">Average Ratings</Link>
+    {/*<Link to="/view-average-ratings" className="hover:text-white transition duration-200">Average Ratings</Link>*/}
   </nav>
 </div>
 
@@ -32,7 +32,7 @@ export default function App() {
           <Route path="/teams" element={<Teams />} />
           <Route path="/add-player" element={<AddPlayer />} />
           <Route path="/rate-players" element={<RatePlayers />} />
-          <Route path="/view-average-ratings" element={<ViewAverageRatings />} />
+          {/* <Link to="/view-average-ratings" className="hover:underline">Average Ratings</Link> */}
         </Routes>
       </div>
     </Router>
