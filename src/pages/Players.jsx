@@ -21,7 +21,6 @@ const Players = () => {
                             <th className="p-3">Name</th>
                             <th className="p-3">Position</th>
                             <th className="p-3">Foot</th>
-                            <th className="p-3">Goalkeeper</th>
                         </tr>
                     </thead>
                     <tbody className="text-gray-900 text-sm">
@@ -32,7 +31,6 @@ const Players = () => {
                                     <td className="p-3 text-gray-700">{player.position}</td>
                                     <td className="p-3 text-gray-700">{player.foot}</td>
                                     <td className="p-3 text-center text-gray-700">
-                                        {player.goalkeeper ? "✅ Yes" : "❌ No"}
                                     </td>
                                 </tr>
                             ))
