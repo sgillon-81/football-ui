@@ -31,7 +31,7 @@ export default function Teams() {
       setTeamData(response.data);
     } catch (err) {
       console.error("❌ Error selecting teams:", err);
-      setError("Failed to select teams. Please try again.");
+      setError("Failed to select teams. Please check player availability.");
     } finally {
       setLoading(false);
     }
@@ -91,23 +91,37 @@ export default function Teams() {
 
       {error && <p className="mt-4 text-red-400 font-semibold">{error}</p>}
 
-      {teamData && (
+      {teamData?.teams ? (
         <div className="w-full max-w-4xl mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[opponent1, opponent2].map((opponent, i) => (
-            <div key={i} className="bg-gray-800 p-6 rounded-lg shadow-md">
-              <h3 className={`text-2xl font-semibold ${i === 0 ? "text-blue-300" : "text-green-300"}`}>
-                {opponent}
-              </h3>
-              <p className="mt-1 text-gray-400">Avg Ability: {teamData.teams[opponent].average_ability}</p>
-              <ul className="mt-3 space-y-2">
-                {teamData.teams[opponent].players.map((player, index) => (
-                  <li key={index} className="p-2 bg-gray-700 rounded-md">{`${player.name} - ${player.position}`}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {[opponent1, opponent2].map((opponent, i) => {
+            const team = teamData.teams[opponent];
+            if (!team) return (
+              <div key={i} className="bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 className={`text-2xl font-semibold ${i === 0 ? "text-blue-300" : "text-green-300"}`}>
+                  {opponent}
+                </h3>
+                <p className="mt-2 text-yellow-400">⚠️ Not enough players to form this team.</p>
+              </div>
+            );
+
+            return (
+              <div key={i} className="bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 className={`text-2xl font-semibold ${i === 0 ? "text-blue-300" : "text-green-300"}`}>
+                  {opponent}
+                </h3>
+                <p className="mt-1 text-gray-400">Avg Ability: {team.average_ability}</p>
+                <ul className="mt-3 space-y-2">
+                  {team.players.map((player, index) => (
+                    <li key={index} className="p-2 bg-gray-700 rounded-md">
+                      {`${player.name} - ${player.position}${player.goalkeeper ? " (GK)" : ""}`}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
